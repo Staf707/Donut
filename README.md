@@ -8,3 +8,11 @@ Learn about rotation matrices, 3D rendering, lumination and much more!
   <li>Real-Time Rotation: The cube spins around its axes.</li>
 </ul>
 <h2> Repository Structure</h2>
+Donut/<br>
+<ul>
+  <li>cube.py: Main script, spinning cube</li>
+  <li>donut.py: Side script, spinning Donut, used as reference</li>
+  <li>README.md: project overview</li>
+</ul>
+
+
