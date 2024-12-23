@@ -14,5 +14,19 @@ Donut/<br>
   <li>donut.py: Side script, spinning Donut, used as reference</li>
   <li>README.md: project overview</li>
 </ul>
+<h2>🛠️ Installation and Setup</h2>
+<b>1. Clone The Repository</b>
 
+```cmd
+git clone https://github.com/Staf707/Donut.git
+cd Donut
+```
+<b>2. Install Dependencies Ensure you have Python 3.x installed, then install Pygame:</b>
+```cmd
+pip install pygame
+```
+<b>3. Run The script</b>
+```cmd
+python cube.py
+```
 
