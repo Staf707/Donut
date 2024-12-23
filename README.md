@@ -54,3 +54,23 @@ for more information about this topic, I like to refer to this website: https://
 
 <h2>🎮 Controls</h2>
 <ul><li>Pause/Resume Rotation: Press any key to toggle the rotation of the cube.</li></ul>
+
+<h2>🧑‍💻 Customization</h2>
+<ul>
+  <li>Lighting: Toggle natural lighting with the natural_light variable in the script.</li>
+  <li>Color Mode: Set colour = False for a white cube or True for dynamic colors.</li>
+  <li>Cube Size and Rotation: Modify the cube's dimensions and rotation speeds in the while running loop.</li>
+</ul>
+
+<h2>🧑‍🚀 Author</h2>
+Developed by Staf707.
+Feel free to reach out for collaboration or questions!
+<h2></h2>
+<br>
+Let me know if you'd like to include any additional details or further enhancements!
+
+
+
+
+
+
