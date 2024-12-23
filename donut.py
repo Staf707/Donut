@@ -22,7 +22,7 @@ A, B = 0, 0
 
 
 theta_spacing = 10
-phi_spacing = 3
+phi_spacing = 5
 
 
 
@@ -30,7 +30,6 @@ R1 = 10
 R2 = 20
 K2 = 200
 K1 = screen_height * K2 * 3 / (8 * (R1+R2))
-print(K1)
 pygame.init()
 
 chars = ".,-~:;=!*#$@"
@@ -75,7 +74,6 @@ while running:
             y = circlex * (sinB * cosphi - sinA * cosB * sinphi) + circley * cosA * cosB
             z = K2 + cosA * circlex * sinphi + circley * sinA
             ooz = 1 / z
-            print(x, y, z)
             # x, y projection
             xp = int(screen_width / 2 + K1 * ooz * x)
             yp = int(screen_height / 2 -K1 * ooz * y)

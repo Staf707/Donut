@@ -1,7 +1,7 @@
 import os
 import pygame
-from math import cos, sin, tan, radians, pi, sqrt
-from numpy import matrix
+from math import cos, sin, tan, radians, pi, sqrt, acos, degrees
+import time
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 
@@ -37,36 +37,61 @@ clock = pygame.time.Clock()
 pygame.display.set_caption('Cube')
 font = pygame.font.SysFont('Arial', 20, bold=True)
 
-
+natural_light = False
+colour = True
 def text_display(char, x, y):
-    text = font.render(str(char), True, WHITE)
+    if colour:
+        t = time.time()
+
+        red = int((sin(t) + 1) / 2 * 255)
+        green = int((sin(t + 2) + 1) / 2 * 255)
+        blue = int((sin(t + 4) + 1) / 2 * 255)
+
+        text = font.render(str(char), True, (red, green, blue))
+    else: text = font.render(str(char), True, WHITE)
     text_rect = text.get_rect(center=(x, y))
     screen.blit(text, text_rect)
 k = 0
-def calculate_luminance(vx, vy, vz):
-    # Light direction L(0, 1, -1)
-    L = (0, 1, -1)
-    L_magnitude = sqrt(L[0]**2 + L[1]**2 + L[2]**2)
-    L_normalized = (L[0] / L_magnitude, L[1] / L_magnitude, L[2] / L_magnitude)
 
-    # Normal vector v(x, y, z)
-    v_magnitude = sqrt(vx**2 + vy**2 + vz**2)
-    if v_magnitude == 0:
-        return 0  # Avoid division by zero
+def angle_to_value(u, v):
+    # Calculate the dot product and magnitudes of the vectors
+    dot_product = u[0] * v[0] + u[1] * v[1] + u[2] * v[2]
+    magnitude_u = sqrt(u[0]**2 + u[1]**2 + u[2]**2)
+    magnitude_v = sqrt(v[0]**2 + v[1]**2 + v[2]**2)
 
-    v_normalized = (vx / v_magnitude, vy / v_magnitude, vz / v_magnitude)
+    # Calculate the cosine of the angle
+    cos_theta = dot_product / (magnitude_u * magnitude_v)
 
-    # Dot product
-    dot_product = (L_normalized[0] * v_normalized[0] +
-                   L_normalized[1] * v_normalized[1] +
-                   L_normalized[2] * v_normalized[2])
+    # Clip the cosine value to avoid numerical errors outside the range [-1, 1]
+    cos_theta = max(-1, min(1, cos_theta))
 
-    # Clamp to [0, 1]
-    luminance = max(0, dot_product)
+    # Calculate the angle in radians and convert to degrees
+    angle_rad = acos(cos_theta)
+    angle_deg = degrees(angle_rad)
 
-    return luminance
+    # Normalize the angle to a range between 0 and 12
+    value = 11 * (angle_deg / 90)
 
+    # Ensure the value is between 0 and 12
+    value = max(0, min(12, value))
+    
+    return value
+def plane_vector(x,y,z,xt, yt, zt):
+    x2 = x
+    y2 = y
+    if z == -20 or z== 20: x2 += 0.01
+    elif y == -20 or y ==20: x2 += 0.01
+    else: y2 += 0.01
+    xr2 = cosA * x2 + sinA * z
+    yr2 = y2 * cosB - (-sinA * x2 + cosA * z) * sinB
+    zr2 = y2 * sinB + (-sinA * x2 + cosA * z) * cosB
 
+    xt2 = xr2 * cosC - sinC * yr2
+    yt2 = xr2 * sinC + cosC * yr2
+    zt2 = zr2
+
+    return (xt - xt2,yt - yt2,zt - zt2)
+    
 running = True
 while running:
     clock.tick(FPS)
@@ -96,32 +121,32 @@ while running:
                     zt = zr
 
                     # other point in plane
-                    x2 = x
-                    y2 = y
-                    if z == -20 or z== 20: x2 += 1
-                    elif y == -20 or y ==20: x2 += 1
-                    else: y2 += 1
-                    xt2 = cosA * x2 + sinA * z
-                    yt2 = y2 * cosB - (-sinA * x2 + cosA * z) * sinB
-                    zt2 = y2 * sinB + (-sinA * x2 + cosA * z) * cosB
                     ooz = 1 / (zt + K2)
-                    Np = (xt2-xt, yt2 - yt, zt2 - zt)
                     # x and y projection
                     xp = int(screen_width / 2 + (xt/(zt + K2)) * scale)
                     yp = int(screen_height / 2 - (yt/(zt + K2)) * scale)
                     # dot product    
                     position = xp + screen_width * yp
+
                     if len(output) > abs(position) and xp < screen_width and yp < screen_height:
                         if ooz > zbuffer[position]:
-                            
-                            if z == -20: output[position] = chars[5]
-                            elif z == 20: output[position] = chars[6]
-                            elif y == -20: output[position] = chars[7]
-                            elif y == 20: output[position] = chars[9]
-                            elif x == -20: output[position] = chars[8]
-                            elif x == 20: output[position] = chars[10]
 
                             zbuffer[position] = ooz
+
+                            if natural_light:
+                                L_dir = (0,1,-1)
+                                v = plane_vector(x,y,z, xt, yt, zt)
+                                luminance = int(angle_to_value(v,L_dir) -1)
+                                output[position] = chars[luminance if luminance> 0 else 0]
+                            
+                            else:
+                                if x == -20:output[position] = chars[0]
+                                elif x == 20:output[position] = chars[2]
+                                elif y == 20: output[position] = chars[6]
+                                elif y == -20:output[position] = chars[9]
+                                elif z == 20:output[position] = chars[11]
+                                elif z == -20:output[position] = chars[4]
+
 
 
     for i in range(screen_height):
