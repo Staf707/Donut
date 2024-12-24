@@ -107,9 +107,9 @@ while running:
     sinC = sin(C)
     output = [' '] * screen_size
     zbuffer = [0] * screen_size
-    for x in range(-20, 21):
-        for y in range(-20, 21):
-            for z in range(-20,21):
+    for x in range(-20, 21, spacing):
+        for y in range(-20, 21, spacing):
+            for z in range(-20,21, spacing):
                 if x == -20 or x == 20 or y == -20 or y == 20 or z == -20 or z == 20:
                     
                     xr = cosA * x + sinA * z 
