@@ -3,14 +3,14 @@
 <h1>3D Ascii Rendering In Python (Using Pygame)</h1>
 A lightweight pygame engine, using pygame, to simulate a spinning in ascii characters.<br>
 Learn about rotation matrices, 3D rendering, lumination and much more!
-<h2>Features</h2>
+<h2>✅ Features</h2>
 <ul>
   <li>3D Projection: Simulates 3D rendering using 2D transformations.</li>
   <li>Customizable: Easily tweak the cube's size, speed, and colors.</li>
   <li>Real-Time Rotation: The cube spins around its axes.</li>
   <li>Lighting Effects: Includes natural lighting simulation with dot products and plane vectors.</li>
 </ul>
-<h2> Repository Structure</h2>
+<h2>🧩 Repository Structure</h2>
 Donut/<br>
 <ul>
   <li>cube.py: Main script, spinning cube</li>
@@ -61,8 +61,70 @@ for more information about this topic, I like to refer to this website: https://
   <li>Color Mode: Set colour = False for a white cube or True for dynamic colors.</li>
   <li>Cube Size and Rotation: Modify the cube's dimensions and rotation speeds in the while running loop.</li>
 </ul>
+<h2>👨‍💻 Code Overview</h2>
+<h3>1. Initializing everything</h3>
+<h4>1. Importing all depenencies</h4>
 
-<h2>🧑‍🚀 Author</h2>
+```python
+import os
+import pygame
+from math import cos, sin, tan, radians, pi, sqrt, acos, degrees
+import time
+```
+
+<h4>2. Assigning the needed colours</h4>
+
+```python
+WHITE = (255,255,255)
+BLACK = (0,0,0)
+
+```
+
+<h4>3. The Window</h4>
+We make sure the window is in the middle of the screen. In this example, I'm choosing a resolution of 800x800 but you can change this if you want to, same as the FPS.
+
+```python
+os.environ['SDL_VIDEO_CENTERED'] = '1'
+RES = WIDTH, HEIGHT = 800, 800
+FPS = 60
+```
+
+<h4>4. Pixels</h4>
+We choose for a pixel width and height of 20, this means each charachter ( we call it pixel) is 20x20.
+The 'x_pixel' and 'y_pixel' is later used when we are going to loop over all the characters.
+
+```python
+pixel_width = 20
+pixel_height = 20
+
+x_pixel = 0
+y_pixel = 0
+```
+
+
+```python
+screen_width = WIDTH // pixel_width # 40
+screen_height = HEIGHT // pixel_height # 40
+screen_size = screen_width * screen_height
+```
+screen_width/screen_height = how many characters there are in the width and height
+<br>
+size = how many chars their are in total on screen. (base x height)
+
+<h4>5. Other</h4>
+
+```python
+FOV = 5
+FOV_rad = radians(FOV)
+```
+Here, you can choose your FOV, this is mesured in degrees and transfered in radians.
+
+```python
+K2 = 70
+spacing = 1
+```
+
+<h2>📟 Author</h2>
 Developed by Staf707.
 Feel free to reach out for collaboration or questions!
 <h2></h2>
@@ -72,5 +134,5 @@ Let me know if you'd like to include any additional details or further enhanceme
 
 
 
-
-
+```python
+```
