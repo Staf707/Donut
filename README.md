@@ -121,8 +121,61 @@ Here, you can choose your FOV, this is mesured in degrees and transfered in radi
 
 ```python
 K2 = 70
-spacing = 1
 ```
+This is the distance between the camera and the middle of the cube. We use this value because we can't draw the cube on z = 0; else we don't see anything.
+
+
+```python
+A = 0
+B = 0
+C = 0
+pygame.init()
+pause = True
+chars = ".,-~:;=!*#$@"
+```
+A,B and C are each responsible for their own axle rotation. For example, A is for rotation around x-ass etc.
+<br>
+With the pause variable, we can pause the rotation. <br>
+The chars list contains all the characters we are going to use from least bright to most bright.
+
+
+```python
+screen = pygame.display.set_mode(RES)
+clock = pygame.time.Clock()
+pygame.display.set_caption('Cube')
+font = pygame.font.SysFont('Arial', 20, bold=True)
+```
+The screen made with the given resolution. <br>
+The clock is going to be used to run the program with our framerate. <br>
+For this repo, we are using 'Arial' as the font but you can change it if you like so.
+
+```python
+natural_light = False
+colour = True
+```
+Here, you can change if you want to use natural lighting and / (or) colour.
+<h3>2. Needed Functions </h3>
+<h4>1. Text Display</h4>
+
+```python
+def text_display(char, x, y):
+    if colour:
+        t = time.time()
+
+        red = int((sin(t) + 1) / 2 * 255)
+        green = int((sin(t + 2) + 1) / 2 * 255)
+        blue = int((sin(t + 4) + 1) / 2 * 255)
+
+        text = font.render(str(char), True, (red, green, blue))
+    else: text = font.render(str(char), True, WHITE)
+    text_rect = text.get_rect(center=(x, y))
+    screen.blit(text, text_rect)
+```
+This function is responsible for displaying the text on the screen. It has as parameters a char, an x and a y-coordinate.
+
+<h4>2. Plane Vector and Angle To Value</h4>
+These functions are used to calculate the lumination (if this is switched on). I won't get to much in detail about this because it's a very complex thing. If you really like to know how it works, just let me know.
+<h3>Program loop</h3>
 
 <h2>📟 Author</h2>
 Developed by Staf707.
